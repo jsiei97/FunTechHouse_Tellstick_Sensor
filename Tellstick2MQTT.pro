@@ -1,6 +1,8 @@
 TEMPLATE = app
 TARGET =
 
+CONFIG += qt debug
+
 DEPENDPATH  += . src
 INCLUDEPATH += . src
 LIBS += -ltelldus-core
