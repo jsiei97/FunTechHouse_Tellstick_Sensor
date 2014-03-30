@@ -1,0 +1,5 @@
+This project is using the GPLv3 (or higher) license.
+http://www.gnu.org/licenses/gpl-3.0.txt
+
+Except for the code that was imported from other project, 
+in those cases the original license is keept.
