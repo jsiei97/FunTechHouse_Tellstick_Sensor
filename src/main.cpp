@@ -26,13 +26,29 @@
 #include <unistd.h>
 #include <time.h>
 #include <telldus-core.h>
+#include <sys/sysinfo.h>
 
 #define DATA_LENGTH 160
+
+long getUptime()
+{
+    struct sysinfo s_info;
+    int error;
+    error = sysinfo(&s_info);
+    if(error != 0)
+    {
+        //What to do?
+        printf("code error = %d\n", error);
+        return 0;
+    }
+    return s_info.uptime;
+}
+
 
 //TDRawDeviceEvent
 void reactOnRaw(const char *data, int controllerId, int callbackId, void *context)
 {
-    printf("%s: data=%s controller=%d callback=%d\n", __func__, data, controllerId, callbackId);
+    printf("%ld %s: data=%s controller=%d callback=%d\n", getUptime(), __func__, data, controllerId, callbackId);
 }
 
 
