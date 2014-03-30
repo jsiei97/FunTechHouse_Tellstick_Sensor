@@ -1,0 +1,34 @@
+== About == 
+Move sensor data from a Tellstick Duo to a MQTT server.
+
+
+== Install ==
+
+# http://developer.telldus.com/wiki/TellStickInstallationUbuntu
+<pre>
+wget -q http://download.telldus.se/debian/telldus-public.key -O- | sudo apt-key add -
+
+sudo vi /etc/apt/sources.list
+# Tellstick Duo 
+deb http://download.telldus.com/debian/ stable main
+
+sudo apt-get update 
+sudo apt-get upgrade 
+
+sudo apt-get install telldus-core tellduscenter libtelldus-core-dev 
+</pre>
+
+== Connect Tellstick Duo ==
+
+=== lsusb ===
+<pre>
+Bus 001 Device 015: ID 1781:0c31 Multiple Vendors 
+</pre>
+
+
+== Build this app == 
+
+<pre>
+qmake 
+make
+</pre>
