@@ -1,0 +1,14 @@
+#The bin file for this project
+Tellstick2MQTT
+
+# Buildfiles
+*.o
+*.moc
+
+# Autogen
+Makefile
+
+# Misc
+tags
+cscope.files
+cscope.out
