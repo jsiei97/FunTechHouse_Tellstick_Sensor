@@ -49,6 +49,27 @@ long getUptime()
 void reactOnRaw(const char *data, int controllerId, int callbackId, void *context)
 {
     printf("%ld %s: data=%s controller=%d callback=%d\n", getUptime(), __func__, data, controllerId, callbackId);
+
+    //This prints things like:
+    //The low spec humidity sensor (http://www.clasohlson.com/se/Temperaturgivare-hygrometer/36-1797)
+    //360448 reactOnRaw: data=class:sensor;protocol:mandolyn;id:11;model:temperaturehumidity;temp:19.2;humidity:47; controller=-1 callback=1
+
+    //if class:sensor;protocol:mandolyn )
+    // model:temperaturehumidity; -> mqtt string syntax
+    // temp:19.2;humidity:47;     -> The data :)
+    // id:11; -> make id part of the topic since it is uniq
+
+
+    //The internal test sensor...?
+    //360060 reactOnRaw: data=class:sensor;protocol:fineoffset;id:0;model:temperaturehumidity;humidity:0;temp:0.0; controller=-1 callback=1
+
+    // The nexa remote D3 turn off
+    //360544 reactOnRaw: data=class:command;protocol:arctech;model:codeswitch;house:D;unit:3;method:turnoff; controller=-1 callback=1
+    //360544 reactOnRaw: data=class:command;protocol:sartano;model:codeswitch;code:0011101110;method:turnoff; controller=-1 callback=1
+
+    // The nexa remote D3 turn on
+    //360768 reactOnRaw: data=class:command;protocol:arctech;model:codeswitch;house:D;unit:3;method:turnon; controller=-1 callback=1
+    //360768 reactOnRaw: data=class:command;protocol:waveman;model:codeswitch;house:D;unit:3;method:turnon; controller=-1 callback=1
 }
 
 
