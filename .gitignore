@@ -4,6 +4,7 @@ Tellstick2MQTT
 # Buildfiles
 *.o
 *.moc
+*.swp
 
 # Autogen
 Makefile
