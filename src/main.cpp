@@ -28,6 +28,10 @@
 #include <telldus-core.h>
 #include <sys/sysinfo.h>
 
+#include <QString>
+#include <QDebug>
+#include <QStringList>
+
 #define DATA_LENGTH 160
 
 long getUptime()
@@ -70,6 +74,86 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
     // The nexa remote D3 turn on
     //360768 reactOnRaw: data=class:command;protocol:arctech;model:codeswitch;house:D;unit:3;method:turnon; controller=-1 callback=1
     //360768 reactOnRaw: data=class:command;protocol:waveman;model:codeswitch;house:D;unit:3;method:turnon; controller=-1 callback=1
+
+
+    QString inData(data);
+    //qDebug() << inData;
+
+
+    QString id;
+
+    bool isSensor=false;
+    bool isTempHum=false;
+    bool isMandolyn=false;
+
+    QString temperature;
+    QString humidity;
+
+    QStringList list = inData.split(";", QString::SkipEmptyParts);
+    for (int i = 0; i < list.size(); ++i)
+    {
+        QString part = list.at(i).trimmed();
+        //qDebug() << part;
+
+        QStringList parts = part.split(":", QString::SkipEmptyParts);
+        //qDebug() << part << parts.size();
+        if(parts.size() == 2)
+        {
+            if(parts.at(0).compare("id")==0)
+            {
+                bool ok;
+                if(!((parts.at(1).toInt(&ok, 10) == 0) && ok))
+                {
+                    //qDebug() << "ok id" << parts.at(1);
+                    id=parts.at(1);
+                }
+            }
+            else if((parts.at(0).compare("class")==0) &&
+                    (parts.at(1).compare("sensor")==0))
+            {
+                isSensor=true;
+            }
+            else if((parts.at(0).compare("protocol")==0) &&
+                    (parts.at(1).compare("mandolyn")==0))
+            {
+                isMandolyn=true;
+            }
+            else if((parts.at(0).compare("model")==0) &&
+                    (parts.at(1).compare("temperaturehumidity")==0))
+            {
+                isTempHum=true;
+            }
+            else if(parts.at(0).compare("temp")==0)
+            {
+                temperature = parts.at(1);
+            }
+            else if(parts.at(0).compare("humidity")==0)
+            {
+                humidity = parts.at(1);
+            }
+        }
+    }
+
+    //If this was a temperature humidity sensor then we send it to the server.
+    if( (!id.isEmpty()) && isSensor && isTempHum && isMandolyn)
+    {
+        //qDebug() << "good data";
+        if( (!temperature.isEmpty()) && (!humidity.isEmpty()) )
+        {
+            //qDebug() << "Data to server: Temperature:" << temperature << " Humidity:" << humidity;
+            QString topic("/FunTechHouse/tellstick/");
+            topic.append(id);
+
+            QString subject("temperature=");
+            subject.append(temperature);
+            subject.append(" ; rh=");
+            subject.append(humidity);
+            subject.append("\%");
+
+            //qDebug() << topic << "Temperature:" << temperature << " Humidity:" << humidity;
+            qDebug() << topic << " - " << subject;
+        }
+    }
 }
 
 
