@@ -18,6 +18,11 @@ sudo apt-get upgrade
 sudo apt-get install telldus-core tellduscenter libtelldus-core-dev 
 </pre>
 
+Mosquitto
+<pre>
+sudo apt-get install mosquitto mosquitto-clients libmosquitto0-dev libmosquittopp0-dev
+</pre>
+
 == Connect Tellstick Duo ==
 
 === lsusb ===
