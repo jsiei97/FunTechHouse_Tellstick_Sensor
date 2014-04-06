@@ -23,6 +23,25 @@ Mosquitto
 sudo apt-get install mosquitto mosquitto-clients libmosquitto0-dev libmosquittopp0-dev
 </pre>
 
+But if the version is older than 0.16 then we cant use them since there was a api change!
+Quck check is with dpkg -s.
+<pre>
+dpkg -s mosquitto | grep Ver
+Version: 0.15-2ubuntu1
+</pre>
+
+Then uninstall and download and install from 
+source with the [https://github.com/jsiei97/FT_Tools FT_Tools script called install.mosquitto.sh].
+<pre>
+sudo apt-get remove mosquitto mosquitto-clients libmosquitto0-dev libmosquittopp0-dev
+</pre>
+
+<pre>
+cd ~/funtech/FT_Tools/
+./install.mosquitto.sh 
+</pre>
+
+
 == Connect Tellstick Duo ==
 
 === lsusb ===
