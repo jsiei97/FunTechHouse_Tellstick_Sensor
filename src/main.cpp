@@ -32,6 +32,9 @@
 #include <QDebug>
 #include <QStringList>
 
+#include "MosqConnect.h"
+#include <mosquitto.h>
+
 #define DATA_LENGTH 160
 
 long getUptime()
@@ -152,6 +155,8 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
 
             //qDebug() << topic << "Temperature:" << temperature << " Humidity:" << humidity;
             qDebug() << topic << " - " << subject;
+            //topic.toAscii()
+            //subject.toAscii()
         }
     }
 }
@@ -161,6 +166,17 @@ int main(int argc, char *argv[])
 {
     printf("FunTechHouse_Tellstick_Sensor\n");
     tdInit();
+
+    class MosqConnect *mqtt;
+    int rc;
+
+    mosqpp::lib_init();
+
+    mqtt = new MosqConnect(
+            "FunTechHouse_Tellstick_Sensor",
+            "mosqhub",
+            1883
+            );
 
     tdRegisterRawDeviceEvent( &reactOnRaw, NULL );
 

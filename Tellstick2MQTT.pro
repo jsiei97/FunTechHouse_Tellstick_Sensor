@@ -5,7 +5,9 @@ CONFIG += qt debug
 
 DEPENDPATH  += . src
 INCLUDEPATH += . src
+
 LIBS += -ltelldus-core
+LIBS += -lmosquittopp -lmosquitto
 
 target.path = /usr/local/bin/
 INSTALLS += target
@@ -13,6 +15,6 @@ INSTALLS += target
 # Input
 SOURCES += main.cpp
 
-#SOURCES += WeekTimer.cpp
-#HEADERS += WeekTimer.h
+SOURCES += MosqConnect.cpp
+HEADERS += MosqConnect.h
 
