@@ -55,7 +55,7 @@ long getUptime()
 //TDRawDeviceEvent
 void reactOnRaw(const char *data, int controllerId, int callbackId, void *context)
 {
-    printf("%ld %s: data=%s controller=%d callback=%d\n", getUptime(), __func__, data, controllerId, callbackId);
+    //printf("%ld %s: data=%s controller=%d callback=%d\n", getUptime(), __func__, data, controllerId, callbackId);
 
     //This prints things like:
     //The low spec humidity sensor (http://www.clasohlson.com/se/Temperaturgivare-hygrometer/36-1797)
@@ -143,6 +143,9 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
         //qDebug() << "good data";
         if( (!temperature.isEmpty()) && (!humidity.isEmpty()) )
         {
+            //Send this data into the hash[id].update()
+            //Then if time, publish()
+            //
             //qDebug() << "Data to server: Temperature:" << temperature << " Humidity:" << humidity;
             QString topic("/FunTechHouse/tellstick/");
             topic.append(id);
