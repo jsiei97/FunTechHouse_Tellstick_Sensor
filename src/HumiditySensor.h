@@ -24,7 +24,6 @@
 #ifndef  __HUMIDITYSENSOR_H
 #define  __HUMIDITYSENSOR_H
 
-#include "Sensor.h"
 
 // If value is the "same" for "cnt" questions, then send anyway.
 // If sleep is 1s (1000ms) and there is 1 question per rotation
@@ -32,7 +31,7 @@
 // 1200/1s/60s=20min
 #define ALWAYS_SEND_CNT 1200
 
-class HumiditySensor : public Sensor
+class HumiditySensor
 {
     private:
         int    valueSendCnt;///< Always send after "cnt time" even if there is no change

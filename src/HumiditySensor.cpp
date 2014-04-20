@@ -5,7 +5,7 @@
  */
 
 /*
- * Copyright (C) 2013 Johan Simonsson
+ * Copyright (C) 2014 Johan Simonsson
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,9 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "Sensor.h"
 #include "HumiditySensor.h"
-#include "StringHelp.h"
 
 /**
  * Default constructur,
@@ -198,7 +196,7 @@ void HumiditySensor::setDiffToSend(double temperature, double humidity)
 void HumiditySensor::setValueOffset(double temperature, double humidity)
 {
     temperatureOffset = temperature;
-    humidityOffset    =  humidity;
+    humidityOffset    = humidity;
 }
 
 bool HumiditySensor::alarmCheck(char* responce, int maxSize)
@@ -217,16 +215,8 @@ bool HumiditySensor::alarmCheck(char* responce, int maxSize)
             sendAlarm = true;
             alarmHighTemperatureSent = true;
 
-            int integerPart = 0;
-            int decimalPart = 0;
-            StringHelp::splitDouble(temperatureWork, &integerPart, &decimalPart);
-
-            int intAlarm = 0;
-            int decAlarm = 0;
-            StringHelp::splitDouble(alarmHighTemperature, &intAlarm, &decAlarm);
-
-            pos = snprintf(responce, maxSize, " : High Temperature=%d.%02d(%d.%02d)",
-                    integerPart, decimalPart, intAlarm, decAlarm);
+            pos = snprintf(responce, maxSize, " : High Temperature=%.02f(%.02f)",
+                    temperatureWork, alarmHighTemperature);
             responce += pos;
             maxSize  -= pos;
         }
@@ -245,16 +235,8 @@ bool HumiditySensor::alarmCheck(char* responce, int maxSize)
             sendAlarm = true;
             alarmLowTemperatureSent = true;
 
-            int integerPart = 0;
-            int decimalPart = 0;
-            StringHelp::splitDouble(temperatureWork, &integerPart, &decimalPart);
-
-            int intAlarm = 0;
-            int decAlarm = 0;
-            StringHelp::splitDouble(alarmLowTemperature, &intAlarm, &decAlarm);
-
-            pos = snprintf(responce, maxSize, " : Low Temperature=%d.%02d(%d.%02d)",
-                    integerPart, decimalPart, intAlarm, decAlarm);
+            pos = snprintf(responce, maxSize, " : Low Temperature=%.02f(%.02f)",
+                    temperatureWork, alarmLowTemperature);
             responce += pos;
             maxSize  -= pos;
         }
@@ -272,16 +254,8 @@ bool HumiditySensor::alarmCheck(char* responce, int maxSize)
             sendAlarm = true;
             alarmHighHumiditySent = true;
 
-            int integerPart = 0;
-            int decimalPart = 0;
-            StringHelp::splitDouble(humidityWork, &integerPart, &decimalPart);
-
-            int intAlarm = 0;
-            int decAlarm = 0;
-            StringHelp::splitDouble(alarmHighHumidity, &intAlarm, &decAlarm);
-
-            pos = snprintf(responce, maxSize, " : High Humidity=%d.%02d(%d.%02d)",
-                    integerPart, decimalPart, intAlarm, decAlarm);
+            pos = snprintf(responce, maxSize, " : High Humidity=%.02f(%.02f)", 
+                    humidityWork, alarmHighHumidity);
             responce += pos;
             maxSize  -= pos;
         }
@@ -300,16 +274,8 @@ bool HumiditySensor::alarmCheck(char* responce, int maxSize)
             sendAlarm = true;
             alarmLowHumiditySent = true;
 
-            int integerPart = 0;
-            int decimalPart = 0;
-            StringHelp::splitDouble(humidityWork, &integerPart, &decimalPart);
-
-            int intAlarm = 0;
-            int decAlarm = 0;
-            StringHelp::splitDouble(alarmLowHumidity, &intAlarm, &decAlarm);
-
-            pos = snprintf(responce, maxSize, " : Low Humidity=%d.%02d(%d.%02d)",
-                    integerPart, decimalPart, intAlarm, decAlarm);
+            pos = snprintf(responce, maxSize, " : Low Humidity=%.02f(%.02f)",
+                    humidityWork, alarmLowHumidity);
             responce += pos;
             maxSize  -= pos;
         }
