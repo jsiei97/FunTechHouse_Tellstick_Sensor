@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <QString>
 
 #include "HumiditySensor.h"
 
@@ -55,6 +56,24 @@ HumiditySensor::HumiditySensor()
         alarmHystHumidity    = 5.0;
 }
 
+
+bool HumiditySensor::timeToSend(QString temperature, QString humidity, char* mqttstr, int maxsize)
+{
+    /*
+     * 1. QString -> double
+     * 2. bool HumiditySensor::valueTimeToSend(double temperature, double humidity)
+     * 3. om fix string
+     */
+
+    bool res = valueTimeToSend(temperature.toDouble(), humidity.toDouble());
+
+    if(res)
+    {
+        snprintf(mqttstr, maxsize, "temperature=%.02f ; rh=%.02f%c", 
+                temperatureWork, humidityWork, '%');
+    }
+    return res;
+}
 
 /**
  * Is it time to send a new value to the server,

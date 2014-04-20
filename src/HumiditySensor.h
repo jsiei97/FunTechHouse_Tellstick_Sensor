@@ -5,7 +5,7 @@
  */
 
 /*
- * Copyright (C) 2013 Johan Simonsson
+ * Copyright (C) 2014 Johan Simonsson
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,12 +24,16 @@
 #ifndef  __HUMIDITYSENSOR_H
 #define  __HUMIDITYSENSOR_H
 
+#include <QString>
 
 // If value is the "same" for "cnt" questions, then send anyway.
 // If sleep is 1s (1000ms) and there is 1 question per rotation
 // then we have 600/1s=600s or always send every 10min
 // 1200/1s/60s=20min
 #define ALWAYS_SEND_CNT 1200
+
+/// @todo ALWAYS_SEND_CNT -> time since last, uptime seconds since last?
+/// @todo alarm state and not those bool
 
 class HumiditySensor
 {
@@ -74,6 +78,8 @@ class HumiditySensor
 
     public:
         HumiditySensor();
+
+        bool timeToSend(QString temperature, QString humidity, char* mqttstr, int maxsize);
 
         bool valueTimeToSend(double temperature, double humidity);
         void setDiffToSend(double temperature, double humidity);

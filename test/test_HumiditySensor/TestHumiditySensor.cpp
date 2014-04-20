@@ -16,6 +16,8 @@ class TestHumiditySensor : public QObject
         void test_alarm();
         void test_offset();
         void test_offset_data();
+
+        void test_timeToSend();
 };
 
 
@@ -326,6 +328,32 @@ void TestHumiditySensor::test_offset()
     QCOMPARE(sensor.humidityWork, humidityResult);
 }
 
+void TestHumiditySensor::test_timeToSend()
+{
+    char data[100];
+    QString te("19.20");
+    QString rh("45.50");
+
+    HumiditySensor sensor;
+
+    QVERIFY( sensor.timeToSend(te, rh, data, 100));
+
+    QCOMPARE(sensor.temperatureWork, 19.2);
+    QCOMPARE(sensor.humidityWork,    45.5);
+
+    //qDebug() << data;
+
+    QString str;
+    str.append("temperature=");
+    str.append(te);
+    str.append(" ; rh=");
+    str.append(rh);
+    str.append("%");
+
+    //please note , vs .
+    //export LC_NUMERIC="en_GB.utf8"
+    QCOMPARE(str, QString(data));
+}
 
 QTEST_MAIN(TestHumiditySensor)
 #include "TestHumiditySensor.moc"
