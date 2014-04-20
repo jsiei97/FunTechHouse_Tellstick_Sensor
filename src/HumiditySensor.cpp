@@ -59,12 +59,6 @@ HumiditySensor::HumiditySensor()
 
 bool HumiditySensor::timeToSend(QString temperature, QString humidity, char* mqttstr, int maxsize)
 {
-    /*
-     * 1. QString -> double
-     * 2. bool HumiditySensor::valueTimeToSend(double temperature, double humidity)
-     * 3. om fix string
-     */
-
     bool res = valueTimeToSend(temperature.toDouble(), humidity.toDouble());
 
     if(res)

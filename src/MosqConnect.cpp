@@ -24,7 +24,7 @@
 #include <cstdio>
 #include <cstring>
 
-//#include <QString>
+#include <QString>
 //#include <QDebug>
 //#include <QRegExp>
 //#include <QDateTime>
@@ -63,3 +63,7 @@ void MosqConnect::on_subscribe(int mid, int qos_count, const int *granted_qos)
     printf("Subscription succeeded. mid=%d qos=%d granter_qos=%d\n", mid, qos_count, *granted_qos);
 }
 
+void MosqConnect::pub(QString topic, char* subject, int sSize)
+{
+    publish(NULL, topic.toAscii(), sSize, subject);
+}

@@ -24,6 +24,7 @@
 #ifndef  __MOSQCONNECT_H
 #define  __MOSQCONNECT_H
 
+#include <QString>
 #include <mosquittopp.h>
 #include <mosquitto.h>
 
@@ -38,6 +39,7 @@ class MosqConnect : public mosqpp::mosquittopp
         void on_connect(int rc);
         void on_message(const struct mosquitto_message *message);
         void on_subscribe(int mid, int qos_count, const int *granted_qos);
+        void pub(QString topic, char* subject, int sSize);
 };
 
 #endif  // __MOSQCONNECT_H

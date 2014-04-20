@@ -18,3 +18,6 @@ SOURCES += main.cpp
 SOURCES += MosqConnect.cpp
 HEADERS += MosqConnect.h
 
+SOURCES += HumiditySensor.cpp
+HEADERS += HumiditySensor.h
+

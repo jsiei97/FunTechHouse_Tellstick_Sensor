@@ -31,11 +31,17 @@
 #include <QString>
 #include <QDebug>
 #include <QStringList>
+#include <QHash>
 
+#include "HumiditySensor.h"
 #include "MosqConnect.h"
 #include <mosquitto.h>
 
 #define DATA_LENGTH 160
+#define MAX_SIZE 100
+MosqConnect *mqtt;
+QHash<QString, HumiditySensor *> sensorListRH;
+char str[MAX_SIZE];
 
 long getUptime()
 {
@@ -143,23 +149,32 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
         //qDebug() << "good data";
         if( (!temperature.isEmpty()) && (!humidity.isEmpty()) )
         {
-            //Send this data into the hash[id].update()
-            //Then if time, publish()
-            //
-            //qDebug() << "Data to server: Temperature:" << temperature << " Humidity:" << humidity;
+            //Tmp debug string...
+            qDebug() << "Data to server: Temperature:" << temperature << " Humidity:" << humidity;
+
             QString topic("/FunTechHouse/tellstick/");
             topic.append(id);
 
-            QString subject("temperature=");
-            subject.append(temperature);
-            subject.append(" ; rh=");
-            subject.append(humidity);
-            subject.append("\%");
+            if(!sensorListRH.contains(id))
+            {
+                sensorListRH.insert(id, new HumiditySensor());
+            }
 
-            //qDebug() << topic << "Temperature:" << temperature << " Humidity:" << humidity;
-            qDebug() << topic << " - " << subject;
-            //topic.toAscii()
-            //subject.toAscii()
+            /*
+               QString subject("temperature=");
+               subject.append(temperature);
+               subject.append(" ; rh=");
+               subject.append(humidity);
+               subject.append("\%");
+               qDebug() << topic << " - " << subject;
+           */
+
+            HumiditySensor *rh = sensorListRH.value(id);
+            if(rh->timeToSend(temperature, humidity, str, MAX_SIZE))
+            {
+                qDebug() << topic << " - " << str;
+                mqtt->pub(topic, str, strlen(str));
+            }
         }
     }
 }
@@ -170,7 +185,6 @@ int main(int argc, char *argv[])
     printf("FunTechHouse_Tellstick_Sensor\n");
     tdInit();
 
-    class MosqConnect *mqtt;
     int rc;
 
     mosqpp::lib_init();
@@ -185,9 +199,15 @@ int main(int argc, char *argv[])
 
     while(1)
     {
+		rc = mqtt->loop();
+		if(rc){
+			mqtt->reconnect();
+		}
         printf(".");
         sleep(10);
     }
+
+    mosqpp::lib_cleanup();
 
     printf("FunTechHouse_Tellstick_Sensor: Done\n");
     return 0;

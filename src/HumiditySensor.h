@@ -27,10 +27,7 @@
 #include <QString>
 
 // If value is the "same" for "cnt" questions, then send anyway.
-// If sleep is 1s (1000ms) and there is 1 question per rotation
-// then we have 600/1s=600s or always send every 10min
-// 1200/1s/60s=20min
-#define ALWAYS_SEND_CNT 1200
+#define ALWAYS_SEND_CNT 30
 
 /// @todo ALWAYS_SEND_CNT -> time since last, uptime seconds since last?
 /// @todo alarm state and not those bool
