@@ -26,16 +26,15 @@
 
 #include <QString>
 
-// If value is the "same" for "cnt" questions, then send anyway.
-#define ALWAYS_SEND_CNT 200
+// If value is the "same" for X seconds, then send anyway.
+#define ALWAYS_SEND_TIMEOUT (30*60)
 
-/// @todo ALWAYS_SEND_CNT -> time since last, uptime seconds since last?
 /// @todo alarm state and not those bool
 
 class HumiditySensor
 {
     private:
-        int    valueSendCnt;///< Always send after "cnt time" even if there is no change
+        unsigned int valueSendTime;///< Last value sent timestamp.
 
         //Variables for the temperature part
         double temperatureWork;   ///< Active temperature that we work with right now

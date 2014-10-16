@@ -1,7 +1,6 @@
+CONFIG += qt debug
 TEMPLATE = app
 TARGET =
-
-CONFIG += qt debug
 
 DEPENDPATH  += . src
 INCLUDEPATH += . src
@@ -20,4 +19,7 @@ HEADERS += MosqConnect.h
 
 SOURCES += HumiditySensor.cpp
 HEADERS += HumiditySensor.h
+
+SOURCES += UnixTime.cpp
+HEADERS += UnixTime.h
 

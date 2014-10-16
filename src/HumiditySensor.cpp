@@ -27,6 +27,7 @@
 #include <QString>
 
 #include "HumiditySensor.h"
+#include "UnixTime.h"
 
 /**
  * Default constructur,
@@ -34,7 +35,7 @@
  */
 HumiditySensor::HumiditySensor()
 {
-        valueSendCnt = 0;
+        valueSendTime = 0;
 
         temperatureDiffMax = 0.5;
         temperatureOffset = 0;
@@ -83,11 +84,11 @@ bool HumiditySensor::valueTimeToSend(double temperature, double humidity)
     humidityWork    = humidity    + humidityOffset;
 
     //Timeout lets send anyway
-    if(0 == valueSendCnt)
+    if( (0 == valueSendTime) || ((UnixTime::get()-valueSendTime)>=ALWAYS_SEND_TIMEOUT) )
     {
         temperatureSent = temperatureWork;
         humiditySent    = humidityWork;
-        valueSendCnt = ALWAYS_SEND_CNT;
+        valueSendTime = UnixTime::get();
         return true;
     }
 
@@ -98,7 +99,7 @@ bool HumiditySensor::valueTimeToSend(double temperature, double humidity)
         {
             temperatureSent = temperatureWork;
             humiditySent    = humidityWork;
-            valueSendCnt = ALWAYS_SEND_CNT;
+            valueSendTime = UnixTime::get();
             return true;
         }
     }
@@ -110,7 +111,7 @@ bool HumiditySensor::valueTimeToSend(double temperature, double humidity)
         {
             temperatureSent = temperatureWork;
             humiditySent    = humidityWork;
-            valueSendCnt = ALWAYS_SEND_CNT;
+            valueSendTime = UnixTime::get();
             return true;
         }
     }
@@ -122,7 +123,7 @@ bool HumiditySensor::valueTimeToSend(double temperature, double humidity)
         {
             temperatureSent = temperatureWork;
             humiditySent    = humidityWork;
-            valueSendCnt = ALWAYS_SEND_CNT;
+            valueSendTime = UnixTime::get();
             return true;
         }
     }
@@ -134,12 +135,11 @@ bool HumiditySensor::valueTimeToSend(double temperature, double humidity)
         {
             temperatureSent = temperatureWork;
             humiditySent    = humidityWork;
-            valueSendCnt = ALWAYS_SEND_CNT;
+            valueSendTime = UnixTime::get();
             return true;
         }
     }
 
-    valueSendCnt--;
     return false;
 }
 

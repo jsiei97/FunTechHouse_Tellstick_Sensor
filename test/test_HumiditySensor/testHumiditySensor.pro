@@ -13,3 +13,6 @@ DEPENDPATH  += ../../src/
 INCLUDEPATH += ../../src/
 SOURCES += HumiditySensor.cpp
 
+# Stubs
+SOURCES += stub/UnixTime.cpp
+HEADERS += stub/UnixTime.h

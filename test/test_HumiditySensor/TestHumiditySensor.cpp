@@ -11,6 +11,8 @@ class TestHumiditySensor : public QObject
     public:
 
     private slots:
+        void initTestCase();
+
         // Tests for the HumiditySensor class
         void test_valueTimeToSend();
         void test_alarm();
@@ -20,6 +22,13 @@ class TestHumiditySensor : public QObject
         void test_timeToSend();
 };
 
+extern unsigned int MY_FEJK_TIME;
+
+void TestHumiditySensor::initTestCase()
+{
+    qDebug("called before everything else");
+    MY_FEJK_TIME = 1;
+}
 
 /**
  * Test that we do not send to many duplicate data.
@@ -30,15 +39,21 @@ void TestHumiditySensor::test_valueTimeToSend()
 
     bool res = sensor.valueTimeToSend(10.0, 60.0);
     QCOMPARE(res, true); //Always send the first time...
-    for(int i=1; i<=ALWAYS_SEND_CNT; i++)
-    {
-        res = sensor.valueTimeToSend(10.0, 60.0);
-        if(true == res)
-        {
-            qDebug() << "Error we should not send now" << i;
-            QFAIL("Error valueSendCnt wrong");
-        }
-    }
+
+    // 10s before timeout, so do not send!
+    MY_FEJK_TIME = (ALWAYS_SEND_TIMEOUT-10); 
+    res = sensor.valueTimeToSend(10.0, 60.0);
+    QCOMPARE(res, false);
+
+    // 5s before timeout, so do not send!
+    MY_FEJK_TIME+=5;
+    res = sensor.valueTimeToSend(10.0, 60.0);
+    QCOMPARE(res, false);
+
+    // 5s after timeout, so DO send!
+    MY_FEJK_TIME += 10;
+    res = sensor.valueTimeToSend(10.0, 60.0);
+    QCOMPARE(res, true);
 
     sensor.setDiffToSend(0.5, 5);
 
