@@ -180,7 +180,7 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
 }
 
 
-int main(int argc, char *argv[])
+int main()
 {
     printf("FunTechHouse_Tellstick_Sensor\n");
     tdInit();
