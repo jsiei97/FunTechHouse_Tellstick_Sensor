@@ -37,11 +37,11 @@ HumiditySensor::HumiditySensor()
 {
         valueSendTime = 0;
 
-        temperatureDiffMax = 0.5;
-        temperatureOffset = 0;
+        temperatureDiffMax = 0.3;
+        temperatureOffset  = 0;
 
-        humidityDiffMax = 5;
-        humidityOffset = 0;
+        humidityDiffMax = 2;
+        humidityOffset  = 0;
 
         alarmHighTemperatureActive = false;
         alarmLowTemperatureActive  = false;
