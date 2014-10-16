@@ -27,7 +27,7 @@
 #include <QString>
 
 // If value is the "same" for "cnt" questions, then send anyway.
-#define ALWAYS_SEND_CNT 30
+#define ALWAYS_SEND_CNT 200
 
 /// @todo ALWAYS_SEND_CNT -> time since last, uptime seconds since last?
 /// @todo alarm state and not those bool
