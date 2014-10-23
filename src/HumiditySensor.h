@@ -27,7 +27,7 @@
 #include <QString>
 
 // If value is the "same" for X seconds, then send anyway.
-#define ALWAYS_SEND_TIMEOUT (30*60)
+#define ALWAYS_SEND_TIMEOUT (1*60*60)
 
 /// @todo alarm state and not those bool
 
