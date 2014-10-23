@@ -152,7 +152,7 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
             //Tmp debug string...
             qDebug() << getUptime() << "Data to server: Temperature:" << temperature << " Humidity:" << humidity;
 
-            QString topic("/FunTechHouse/tellstick/");
+            QString topic("FunTechHouse/tellstick/");
             topic.append(id);
 
             if(!sensorListRH.contains(id))
