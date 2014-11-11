@@ -164,7 +164,7 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
         if( (!temperature.isEmpty()) && (!humidity.isEmpty()) )
         {
             //Tmp debug string...
-            qDebug() << getUptime() << "Data to server: Temperature:" << temperature << " Humidity:" << humidity;
+            qDebug() << getUptime() << "Data to server: Temperature:" << temperature << " Humidity:" << humidity << id;
 
             QString topic("FunTechHouse/tellstick/");
             topic.append(id);
