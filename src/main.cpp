@@ -73,6 +73,11 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
     // id:11; -> make id part of the topic since it is uniq
 
 
+    // Oregon THGN132N (http://www.clasohlson.com/se/Extra-temperaturgivare-hygrometer-THGN132N/36-4288)
+    //268257 reactOnRaw: data=class:sensor;protocol:oregon;model:1A2D;id:211;temp:21.5;humidity:53; controller=1 callback=1
+    //268258 reactOnRaw: data=class:sensor;protocol:oregon;model:1A2D;id:213;temp:21.6;humidity:53; controller=1 callback=1
+
+
     //The internal test sensor...?
     //360060 reactOnRaw: data=class:sensor;protocol:fineoffset;id:0;model:temperaturehumidity;humidity:0;temp:0.0; controller=-1 callback=1
 
@@ -92,8 +97,8 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
     QString id;
 
     bool isSensor=false;
-    bool isTempHum=false;
     bool isMandolyn=false;
+    bool isOregon=false;
 
     QString temperature;
     QString humidity;
@@ -127,10 +132,10 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
             {
                 isMandolyn=true;
             }
-            else if((parts.at(0).compare("model")==0) &&
-                    (parts.at(1).compare("temperaturehumidity")==0))
+            else if((parts.at(0).compare("protocol")==0) &&
+                    (parts.at(1).compare("oregon")==0))
             {
-                isTempHum=true;
+                isOregon=true;
             }
             else if(parts.at(0).compare("temp")==0)
             {
@@ -144,8 +149,17 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
     }
 
     //If this was a temperature humidity sensor then we send it to the server.
-    if( (!id.isEmpty()) && isSensor && isTempHum && isMandolyn)
+    if( (!id.isEmpty()) && isSensor && (isMandolyn || isOregon))
     {
+        if(isMandolyn)
+        {
+           id.prepend("mandolyn_");
+        }
+        else if(isOregon)
+        {
+           id.prepend("oregon_");
+        }
+
         //qDebug() << "good data";
         if( (!temperature.isEmpty()) && (!humidity.isEmpty()) )
         {
