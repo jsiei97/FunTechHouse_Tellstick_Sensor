@@ -1,4 +1,4 @@
-== About == 
+== About ==
 Move sensor data from a Tellstick Duo to a MQTT server.
 
 
@@ -9,13 +9,13 @@ Move sensor data from a Tellstick Duo to a MQTT server.
 wget -q http://download.telldus.se/debian/telldus-public.key -O- | sudo apt-key add -
 
 sudo vi /etc/apt/sources.list
-# Tellstick Duo 
+# Tellstick Duo
 deb http://download.telldus.com/debian/ stable main
 
-sudo apt-get update 
-sudo apt-get upgrade 
+sudo apt-get update
+sudo apt-get upgrade
 
-sudo apt-get install telldus-core tellduscenter libtelldus-core-dev 
+sudo apt-get install telldus-core tellduscenter libtelldus-core-dev
 </pre>
 
 Mosquitto
@@ -30,7 +30,7 @@ dpkg -s mosquitto | grep Ver
 Version: 0.15-2ubuntu1
 </pre>
 
-Then uninstall and download and install from 
+Then uninstall and download and install from
 source with the [https://github.com/jsiei97/FT_Tools FT_Tools script called install.mosquitto.sh].
 <pre>
 sudo apt-get remove mosquitto mosquitto-clients libmosquitto0-dev libmosquittopp0-dev
@@ -38,7 +38,7 @@ sudo apt-get remove mosquitto mosquitto-clients libmosquitto0-dev libmosquittopp
 
 <pre>
 cd ~/funtech/FT_Tools/
-./install.mosquitto.sh 
+./install.mosquitto.sh
 </pre>
 
 
@@ -46,13 +46,24 @@ cd ~/funtech/FT_Tools/
 
 === lsusb ===
 <pre>
-Bus 001 Device 015: ID 1781:0c31 Multiple Vendors 
+Bus 001 Device 015: ID 1781:0c31 Multiple Vendors
 </pre>
 
 
-== Build this app == 
+== Build this app ==
 
 <pre>
-qmake 
+qmake
 make
 </pre>
+
+
+== Tested devices ==
+
+=== Oregon THGN132N ===
+* http://www.clasohlson.com/se/Extra-temperaturgivare-hygrometer-THGN132N/36-4288
+
+=== Misc sensor ===
+The low spec humidity sensor
+* http://www.clasohlson.com/se/Temperaturgivare-hygrometer/36-1797
+
