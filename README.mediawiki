@@ -1,6 +1,10 @@
 == About ==
 Move sensor data from a Tellstick Duo to a MQTT server.
 
+more info:
+* http://fun-tech.se/FunTechHouse/
+* http://fun-tech.se/FunTechHouse/Tellstick/
+
 
 == Install ==
 
