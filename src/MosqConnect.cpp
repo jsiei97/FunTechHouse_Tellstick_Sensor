@@ -44,6 +44,9 @@ MosqConnect::MosqConnect(const char *id, const char *host, int port) : mosquitto
     connect(host, port, keepalive);
 };
 
+MosqConnect::~MosqConnect(){
+}
+
 void MosqConnect::on_connect(int rc)
 {
     printf("Connected with code %d.\n", rc);
