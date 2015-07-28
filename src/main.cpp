@@ -57,11 +57,43 @@ long getUptime()
     return s_info.uptime;
 }
 
-
+void arctech(QStringList list){
+    QString house;
+    QString unit;
+    QString method;
+    for (int i = 0; i < list.size(); ++i)
+    {
+        QString part = list.at(i).trimmed();
+        QStringList parts = part.split(":", QString::SkipEmptyParts);
+        if(parts.size() == 2)
+        {
+            if(parts.at(0).compare("house")==0)
+            {
+                house = parts.at(1);
+            }
+            else if(parts.at(0).compare("unit")==0)
+            {
+                unit = parts.at(1);
+            }
+            else if(parts.at(0).compare("method")==0)
+            {
+                method = parts.at(1);
+            }
+        }
+    }
+    QString topic;
+    topic.append("/tellstick/arctech/");
+    topic.append(house);
+    topic.append(unit);
+    qDebug() << house <<unit<<method;
+    qDebug() <<topic;
+    mqtt->pub(topic,method );
+}
 //TDRawDeviceEvent
+//
 void reactOnRaw(const char *data, int controllerId, int callbackId, void *context)
 {
-    //printf("%ld %s: data=%s controller=%d callback=%d\n", getUptime(), __func__, data, controllerId, callbackId);
+   // printf("%ld %s: data=%s controller=%d callback=%d\n", getUptime(), __func__, data, controllerId, callbackId);
 
     //This prints things like:
     //The low spec humidity sensor (http://www.clasohlson.com/se/Temperaturgivare-hygrometer/36-1797)
@@ -88,7 +120,9 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
     // The nexa remote D3 turn on
     //360768 reactOnRaw: data=class:command;protocol:arctech;model:codeswitch;house:D;unit:3;method:turnon; controller=-1 callback=1
     //360768 reactOnRaw: data=class:command;protocol:waveman;model:codeswitch;house:D;unit:3;method:turnon; controller=-1 callback=1
-
+    //
+    // 
+    // data=class:command;protocol:sartano;model:codeswitch;code:1111101110;method:turnoff; controller=1 callback=1
 
     QString inData(data);
     //qDebug() << inData;
@@ -99,6 +133,7 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
     bool isSensor=false;
     bool isMandolyn=false;
     bool isOregon=false;
+    bool isArctech=false;
 
     QString temperature;
     QString humidity;
@@ -145,6 +180,12 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
             {
                 humidity = parts.at(1);
             }
+            else if((parts.at(0).compare("protocol")==0) &&
+                    (parts.at(1).compare("arctech")==0))
+            {
+                //Arctech NEXA remote
+                isArctech=true;
+            }
         }
     }
 
@@ -190,6 +231,8 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
                 mqtt->pub(topic, str, strlen(str));
             }
         }
+    }else if(isArctech){
+        arctech(list); 
     }
 }
 
