@@ -25,7 +25,7 @@
 #include <cstring>
 
 #include <QString>
-//#include <QDebug>
+#include <QDebug>
 //#include <QRegExp>
 //#include <QDateTime>
 //#include <QUrl>
@@ -43,6 +43,9 @@ MosqConnect::MosqConnect(const char *id, const char *host, int port) : mosquitto
     // Connect immediately.
     connect(host, port, keepalive);
 };
+
+MosqConnect::~MosqConnect(){
+}
 
 void MosqConnect::on_connect(int rc)
 {
@@ -66,4 +69,9 @@ void MosqConnect::on_subscribe(int mid, int qos_count, const int *granted_qos)
 void MosqConnect::pub(QString topic, char* subject, int sSize)
 {
     publish(NULL, topic.toAscii(), sSize, subject);
+}
+void MosqConnect::pub(QString topic, QString subject )
+{
+//    qDebug()<<"publish"<<topic<<subject;
+    publish(NULL, topic.toAscii(), subject.length(), subject.toAscii());
 }
