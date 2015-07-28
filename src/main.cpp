@@ -57,7 +57,8 @@ long getUptime()
     return s_info.uptime;
 }
 
-void arctech(QStringList list){
+void arctech(QStringList list)
+{
     QString house;
     QString unit;
     QString method;
@@ -82,13 +83,14 @@ void arctech(QStringList list){
         }
     }
     QString topic;
-    topic.append("/tellstick/arctech/");
+    topic.append("FunTechHouse/tellstick/arctech/");
     topic.append(house);
     topic.append(unit);
-    qDebug() << house <<unit<<method;
-    qDebug() <<topic;
-    mqtt->pub(topic,method );
+    qDebug() << house << unit << method;
+    qDebug() << topic;
+    mqtt->pub(topic, method);
 }
+
 //TDRawDeviceEvent
 //
 void reactOnRaw(const char *data, int controllerId, int callbackId, void *context)
@@ -121,7 +123,7 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
     //360768 reactOnRaw: data=class:command;protocol:arctech;model:codeswitch;house:D;unit:3;method:turnon; controller=-1 callback=1
     //360768 reactOnRaw: data=class:command;protocol:waveman;model:codeswitch;house:D;unit:3;method:turnon; controller=-1 callback=1
     //
-    // 
+    //
     // data=class:command;protocol:sartano;model:codeswitch;code:1111101110;method:turnoff; controller=1 callback=1
 
     QString inData(data);
@@ -231,8 +233,10 @@ void reactOnRaw(const char *data, int controllerId, int callbackId, void *contex
                 mqtt->pub(topic, str, strlen(str));
             }
         }
-    }else if(isArctech){
-        arctech(list); 
+    }
+    else if(isArctech)
+    {
+        arctech(list);
     }
 }
 
@@ -256,10 +260,10 @@ int main()
 
     while(1)
     {
-		rc = mqtt->loop();
-		if(rc){
-			mqtt->reconnect();
-		}
+        rc = mqtt->loop();
+        if(rc){
+            mqtt->reconnect();
+        }
         printf(".");
         sleep(10);
     }

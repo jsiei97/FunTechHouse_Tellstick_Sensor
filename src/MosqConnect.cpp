@@ -70,8 +70,9 @@ void MosqConnect::pub(QString topic, char* subject, int sSize)
 {
     publish(NULL, topic.toAscii(), sSize, subject);
 }
-void MosqConnect::pub(QString topic, QString subject )
+
+void MosqConnect::pub(QString topic, QString subject)
 {
-//    qDebug()<<"publish"<<topic<<subject;
+    //qDebug() << "publish" << topic << subject;
     publish(NULL, topic.toAscii(), subject.length(), subject.toAscii());
 }
