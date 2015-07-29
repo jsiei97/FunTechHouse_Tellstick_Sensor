@@ -1,0 +1,3 @@
+#!/bin/bash
+echo Starting deamon
+/etc/init.d/Tellstick2MQTT start &

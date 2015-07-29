@@ -1,0 +1,3 @@
+#!/bin/bash
+echo Stoping demon
+/etc/init.d/Tellstick2MQTT stop
