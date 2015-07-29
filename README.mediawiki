@@ -61,6 +61,18 @@ qmake
 make
 </pre>
 
+Then create a .deb with
+<pre>
+./createdeb.sh
+</pre>
+
+And then your package can be inspected and installed with
+<pre>
+dpkg --info Tellstick2MQTT_*.deb
+dpkg --contents Tellstick2MQTT_*.deb
+sudo dpkg -i Tellstick2MQTT_*.deb
+</pre>
+
 
 == Tested devices ==
 
